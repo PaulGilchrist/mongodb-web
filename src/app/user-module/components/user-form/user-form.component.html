@@ -47,10 +47,10 @@
                     <div class="input-group-text"><i class="fa fa-phone fa-fw"></i></div>
                 </div>
                 <input type="tel" name="phone" [(ngModel)]="formUser.phones[0].phoneNumber" #phoneControl="ngModel" class="form-control" [class.form-control-sm]="shrink"
-                    placeholder="(###) ###-####" pattern='[\(]\d{3}[\)][\s]\d{3}[\-]\d{4}' required>
+                    placeholder="(###) ###-####" required>
             </div>
             <div [hidden]="phoneControl.valid || phoneControl.pristine" class="alert alert-danger">
-                Phone is not in the required format (###) ###-####
+                Phone pattern is not currently enforced
             </div>
         </div>
         <div style="height:10px;"></div>

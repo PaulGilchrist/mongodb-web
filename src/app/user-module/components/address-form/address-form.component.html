@@ -5,7 +5,7 @@
             <label class="control-label">Street</label>
             <div class="input-group margin-bottom-sm">
                 <div class="input-group-prepend"><div class="input-group-text"><i class="fa fa-map-marker fa-fw"></i></div></div>
-	            <input type="text" name="street" [(ngModel)]="formAddress.street" #streetNameControl="ngModel" class="form-control" [class.form-control-sm]="shrink" required placeholder="Enter street">
+	            <input type="text" name="street" [(ngModel)]="formAddress.street" #streetControl="ngModel" class="form-control" [class.form-control-sm]="shrink" required placeholder="Enter street">
             </div>
 	        <div [hidden]="streetControl.valid || streetControl.pristine" class="alert alert-danger">
                 No pattern matching currently enforced
@@ -37,7 +37,7 @@
             <label class="control-label">Zip Code</label>
             <div class="input-group margin-bottom-sm">
                 <div class="input-group-prepend"><div class="input-group-text"><i class="fa fa-globe fa-fw"></i></div></div>
-	            <input type="text" name="zip" [(ngModel)]="formAddress.zip" #zipCodeControl="ngModel" class="form-control" [class.form-control-sm]="shrink" required placeholder="Enter zip code" pattern="[0-9]{5}(?:-[0-9]{4})?">
+	            <input type="text" name="zip" [(ngModel)]="formAddress.zip" #zipControl="ngModel" class="form-control" [class.form-control-sm]="shrink" required placeholder="Enter zip code" pattern="[0-9]{5}(?:-[0-9]{4})?">
             </div>
 	        <div [hidden]="zipControl.valid || zipControl.pristine" class="alert alert-danger">
                 Zip code must be in the format ##### or #####-####

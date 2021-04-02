@@ -25,9 +25,9 @@ export class UserService {
             this.http.get<Contact[]>(`http://${environment.apiServer}/odata/contacts`)
                 .pipe(
                     retryWhen(genericRetryStrategy()),
-                    map(users => {
-                        console.log(users);
-                        return users;
+                    map((data: any) => {
+                        // later we may want to look for @odata.context, or @odata.nextLink here
+                        return data.value;
                     }),
                     tap((users: Contact[]) => {
                         this.lastUserDataRetreivalTime = Date.now();
@@ -58,6 +58,22 @@ export class UserService {
     }
 
     public updateUser(user: Contact): Observable<boolean> {
+        this.http.patch<Contact>(`http://${environment.apiServer}/odata/contacts/${user.Id}`, user)
+        .pipe(
+            retryWhen(genericRetryStrategy()),
+            tap(() => {
+                // Update the user in the users array
+                let users = this.users.getValue();
+                let index = users.findIndex(u => u.Id === user.Id);
+                users[index] = user
+                this.lastUserDataRetreivalTime = Date.now();
+                // Caller can subscribe to users$ to retreive the users any time they are updated
+                this.users.next(users);
+                console.log(`PATCH user`);
+            }),
+            catchError(this.handleError)
+        ).subscribe();
+
         // Since we don't have a backend API in this demo, we will use localStorage instead
         const users = this.users.getValue();
         users.map(u => user.Id === u.Id ? user : u);

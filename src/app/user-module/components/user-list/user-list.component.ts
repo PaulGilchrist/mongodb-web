@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
 import { Contact } from '../../models/contact.model';
 
@@ -6,8 +6,8 @@ import { Contact } from '../../models/contact.model';
     selector: 'app-user-list',
     templateUrl: './user-list.component.html'
 })
-export class UserListComponent implements OnInit {
-    @Input() users: Contact[];
+export class UserListComponent implements OnInit, OnChanges {
+    @Input() users: Contact[] = null;
     @Output() readonly choose = new EventEmitter<Contact>();
     id: string;
 
@@ -22,6 +22,24 @@ export class UserListComponent implements OnInit {
     ngOnInit(): void {
         // Track screen size  changes to adjust button size
         window.onresize = () => this.shrink = window.innerWidth < 768;
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        for (const propName in changes) {
+            if ({}.hasOwnProperty.call(changes, propName)) {
+                switch (propName) {
+                    case 'users':
+                        if (changes[propName].currentValue) {
+                            this.users = [
+                                ...changes[propName].currentValue
+                            ];
+                        } else {
+                            this.users = null;
+                        }
+                        break;
+                }
+            }
+        }
     }
 
     changeSort(newSortType: string) {
