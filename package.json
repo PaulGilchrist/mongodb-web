@@ -1,5 +1,10 @@
 {
+  "authors": [
+    "Paul Gilchrist"
+  ],
   "name": "mongodb-web",
+  "description": "Front-end for mongodb-api and kubernetes-example projects",
+  "license": "MIT",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -19,6 +24,12 @@
     "@angular/platform-browser": "~11.2.7",
     "@angular/platform-browser-dynamic": "~11.2.7",
     "@angular/router": "~11.2.7",
+    "angular-pipes-module": "~1.0.2",
+    "animate.css": "~4.1.1",
+    "bootstrap": "~4.5.3",
+    "font-awesome": "^4.7.0",
+    "jquery": "~3.5.1",
+    "ngx-toastr": "~13.1.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3"

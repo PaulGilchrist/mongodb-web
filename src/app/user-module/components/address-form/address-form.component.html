@@ -1,0 +1,47 @@
+<div *ngIf="formAddress" class="animated slideInRight">
+    <h3>Address</h3>
+    <form #addressForm="ngForm" novalidate>
+        <div class="form-group" [class.has-error]="streetControl.invalid && streetControl.dirty">
+            <label class="control-label">Street</label>
+            <div class="input-group margin-bottom-sm">
+                <div class="input-group-prepend"><div class="input-group-text"><i class="fa fa-map-marker fa-fw"></i></div></div>
+	            <input type="text" name="street" [(ngModel)]="formAddress.street" #streetNameControl="ngModel" class="form-control" [class.form-control-sm]="shrink" required placeholder="Enter street">
+            </div>
+	        <div [hidden]="streetControl.valid || streetControl.pristine" class="alert alert-danger">
+                No pattern matching currently enforced
+            </div>
+        </div>
+        <div class="form-group" [class.has-error]="cityControl.invalid && cityControl.dirty">
+            <label class="control-label">City</label>
+            <div class="input-group margin-bottom-sm">
+                <div class="input-group-prepend"><div class="input-group-text"><i class="fa fa-compass fa-fw"></i></div></div>
+	            <input type="text" name="city" [(ngModel)]="formAddress.city" #cityControl="ngModel" class="form-control" [class.form-control-sm]="shrink" required placeholder="Enter city name" pattern="[A-Z]{1}[a-z]+(?:[\s-][a-zA-Z]+)*">
+            </div>
+			<div [hidden]="cityControl.valid || cityControl.pristine" class="alert alert-danger">
+                City is invalid.  First word must be capatalized.
+            </div>
+        </div>
+        <div class="form-group" [class.has-error]="stateControl.invalid && stateControl.dirty">
+            <label class="control-label">State</label>
+            <div class="input-group margin-bottom-sm">
+                <div class="input-group-prepend"><div class="input-group-text"><i class="fa fa-plane fa-fw"></i></div></div>
+				<select name="state" [ngModel]="formAddress.state" (change)="onUpdateState($event)" #stateControl="ngModel" class="form-control" [class.form-control-sm]="shrink">
+					<option *ngFor="let s of states" [value]='s.abbreviation'>{{s.name}}</option>
+				</select>
+            </div>
+            <div [hidden]="stateControl.valid || stateControl.pristine" class="alert alert-danger">
+                State is required
+            </div>
+        </div>
+        <div class="form-group" [class.has-error]="zipControl.invalid && zipControl.dirty">
+            <label class="control-label">Zip Code</label>
+            <div class="input-group margin-bottom-sm">
+                <div class="input-group-prepend"><div class="input-group-text"><i class="fa fa-globe fa-fw"></i></div></div>
+	            <input type="text" name="zip" [(ngModel)]="formAddress.zip" #zipCodeControl="ngModel" class="form-control" [class.form-control-sm]="shrink" required placeholder="Enter zip code" pattern="[0-9]{5}(?:-[0-9]{4})?">
+            </div>
+	        <div [hidden]="zipControl.valid || zipControl.pristine" class="alert alert-danger">
+                Zip code must be in the format ##### or #####-####
+            </div>
+        </div>
+    </form>
+</div>

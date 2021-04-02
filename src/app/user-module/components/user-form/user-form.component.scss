@@ -1,0 +1,11 @@
+﻿.form-group {
+    margin-bottom: 5px;
+}
+h2 {
+    margin-top: 0;
+}
+input.ng-valid { border-left: 5px solid var(--color-success);; }
+input.ng-invalid { border-left: 5px solid var(--color-danger);; }
+label {
+    margin-bottom: 1px;
+}

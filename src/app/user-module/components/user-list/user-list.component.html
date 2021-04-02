@@ -1,0 +1,53 @@
+﻿<div class="animated slideInUp">
+    <div class="card">
+        <div class="card-header bg-dark text-light d-flex align-items-center">
+	        <h5 class="mr-auto">User List&nbsp;<span class="badge-light rounded">{{users.length}}</span></h5>
+			<form class="form-inline">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text"><i class="fa fa-search fa-fw"></i></span>
+					</div>
+					<input [(ngModel)]="searchString" name="searchString" type="text" class="form-control" [class.form-control-sm]="shrink" placeholder="Search String" aria-label="Search String">
+				</div>
+			</form>
+			&nbsp;&nbsp;<i class="fa fa-fw align-self-center" [class.fa-chevron-right]="!isOpen" [class.fa-chevron-down]="isOpen" (click)="isOpen=!isOpen"></i>
+        </div>
+		<div class="card-body" [class.collapse]="!isOpen">
+			<div *ngIf='users.length > 0' class="table-responsive">
+				<table class="table table-striped table-hover" [class.table-sm]="shrink" style="cursor:pointer;">
+					<thead>
+						<tr>
+							<th scope="col" (click)="changeSort('firstName')">
+								First Name&nbsp;
+								<i *ngIf="sortType==='firstName'" class="fa" [ngClass]="{'fa-caret-down': !sortReverse, 'fa-caret-up': sortReverse}"></i>
+							</th>
+							<th scope="col" (click)="changeSort('lastName')">
+								Last Name&nbsp;
+								<i *ngIf="sortType==='lastName'" class="fa" [ngClass]="{'fa-caret-down': !sortReverse, 'fa-caret-up': sortReverse}"></i>
+							</th>
+							<th scope="col" (click)="changeSort('email')">
+								Email&nbsp;
+								<i *ngIf="sortType==='email'" class="fa" [ngClass]="{'fa-caret-down': !sortReverse, 'fa-caret-up': sortReverse}"></i>
+							</th>
+							<th scope="col" (click)="changeSort('phone')">
+								Phone&nbsp;
+								<i *ngIf="sortType==='phone'" class="fa" [ngClass]="{'fa-caret-down': !sortReverse, 'fa-caret-up': sortReverse}"></i>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let user of users | filterObjects:searchString | sortObjects:sortType:sortReverse" (click)="selectUser(user)" [class.bg-secondary]="user === selectedUser" [class.text-light]="user === selectedUser" [class.bold]="user.isDirty">
+							<td>{{user.firstName}}</td>
+							<td>{{user.lastName}}</td>
+							<td>{{user.emails[0].email}}</td>
+							<td>{{user.phones[0].phoneNumber}}</td>
+						</tr>
+					</tbody>
+				</table>
+            </div>
+        </div>
+		<div class="card-footer text-info" [class.collapse]="!isOpen">
+			Select user to edit or view address details<br>
+		</div>
+    </div>
+</div>

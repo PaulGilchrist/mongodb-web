@@ -1,0 +1,64 @@
+<div *ngIf="formUser" id="user-form" class="animated" [ngClass]="{ slideInLeft: status==='new', bounce: status==='saved', shake: status==='canceled' }">
+    <h3>User</h3>
+    <form #userForm="ngForm" novalidate>
+        <div class="form-group" [class.has-error]="firstNameControl.invalid && firstNameControl.dirty">
+            <label class="control-label">First Name</label>
+            <div class="input-group margin-bottom-sm">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-user fa-fw"></i></div>
+                </div>
+                <input type="text" name="firstName" [(ngModel)]="formUser.firstName" #firstNameControl="ngModel" class="form-control" [class.form-control-sm]="shrink"
+                    placeholder="First Name" pattern="[A-Za-z ,.'-]+" required autofocus minlength="2" maxlength="20">
+            </div>
+            <div [hidden]="firstNameControl.valid || firstNameControl.pristine" class="alert alert-danger">
+                First name must be between 2 and 20 characters
+            </div>
+        </div>
+        <div class="form-group" [class.has-error]="lastNameControl.invalid && lastNameControl.dirty">
+            <label class="control-label">Last Name</label>
+            <div class="input-group margin-bottom-sm">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-users fa-fw"></i></div>
+                </div>
+                <input type="text" name="lastName" [(ngModel)]="formUser.lastName" #lastNameControl="ngModel" class="form-control" [class.form-control-sm]="shrink"
+                    placeholder="Last Name" pattern="[A-Za-z ,.'-]+" required minlength="2" maxlength="20">
+            </div>
+            <div [hidden]="lastNameControl.valid || lastNameControl.pristine" class="alert alert-danger">
+                Last name must be between 2 and 20 characters
+            </div>
+        </div>
+        <div class="form-group" [class.has-error]="emailControl.invalid && emailControl.dirty">
+            <label class="control-label">Email Address</label>
+            <div class="input-group margin-bottom-sm">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-envelope-o fa-fw"></i></div>
+                </div>
+                <input type="email" name="email" required [(ngModel)]="formUser.emails[0].email" #emailControl="ngModel" class="form-control" [class.form-control-sm]="shrink"
+                    placeholder="Email address" pattern="[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}">
+            </div>
+            <div [hidden]="emailControl.valid || emailControl.pristine" class="alert alert-danger">
+                Not a valid email address
+            </div>
+        </div>
+        <div class="form-group" [class.has-error]="phoneControl.invalid && phoneControl.dirty">
+            <label class="control-label">Phone Number</label>
+            <div class="input-group margin-bottom-sm">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-phone fa-fw"></i></div>
+                </div>
+                <input type="tel" name="phone" [(ngModel)]="formUser.phones[0].phoneNumber" #phoneControl="ngModel" class="form-control" [class.form-control-sm]="shrink"
+                    placeholder="(###) ###-####" pattern='[\(]\d{3}[\)][\s]\d{3}[\-]\d{4}' required>
+            </div>
+            <div [hidden]="phoneControl.valid || phoneControl.pristine" class="alert alert-danger">
+                Phone is not in the required format (###) ###-####
+            </div>
+        </div>
+        <div style="height:10px;"></div>
+        <button class="btn btn-success" [class.btn-sm]="shrink" [disabled]="userForm.pristine || userForm.invalid" (click)="saveForm()"><i class="fa fa-check"></i> Save</button>
+        &nbsp;
+        <button class="btn btn-success" [class.btn-sm]="shrink" [disabled]="userForm.pristine" (click)="cancelForm()"><i class="fa fa-times"></i>
+            Cancel</button>
+        <div class="hidden-md-up" style="height:20px;"></div>
+        <!--Only show when user and address forms are stacked vertically-->
+    </form>
+</div>
