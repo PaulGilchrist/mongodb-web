@@ -60,13 +60,4 @@ export class UserShellComponent implements OnDestroy, OnInit {
         }
     }
 
-    reset() {
-        localStorage.removeItem('users');
-        localStorage.removeItem('dirtyUsers');
-        this.user = null;
-        this.address = null;
-        this.userService.getUsers(true);
-        console.log(`User list reset`);
-    }
-
 }
