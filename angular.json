@@ -30,7 +30,8 @@
                 "glob": "*.json",
                 "input": "src/app/user-module/data",
                 "output": "/assets"
-              }
+              },
+              "src/web.config"
             ],
             "styles": [
               "src/styles.scss"
