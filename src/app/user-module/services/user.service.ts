@@ -22,7 +22,7 @@ export class UserService {
 
     public getUsers(force: boolean = false): Observable<Contact[]> {
         if (force || this.users.getValue().length === 0 || Date.now() - this.lastUserDataRetreivalTime > environment.dataCaching.userData) {
-            this.http.get<Contact[]>(`http://${environment.apiServer}/odata/contacts`)
+            this.http.get<Contact[]>(`http://${environment.apiServer}/contacts?$top=100`) //Limiting to 100 contacts only for demo purposes
                 .pipe(
                     retryWhen(genericRetryStrategy()),
                     map((data: any) => {
@@ -58,7 +58,7 @@ export class UserService {
     }
 
     public updateUser(user: Contact): Observable<boolean> {
-        this.http.patch<Contact>(`http://${environment.apiServer}/odata/contacts/${user.Id}`, user)
+        this.http.patch<Contact>(`http://${environment.apiServer}/contacts/${user.Id}`, user)
         .pipe(
             retryWhen(genericRetryStrategy()),
             tap(() => {
