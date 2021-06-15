@@ -6,7 +6,7 @@ export interface Address {
 }
 
 export interface Contact {
-    "Id": string,
+    "id": string,
     "firstName": string,
     "lastName": string,
     "displayName": string,

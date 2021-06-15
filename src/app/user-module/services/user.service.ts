@@ -58,13 +58,13 @@ export class UserService {
     }
 
     public updateUser(user: Contact): Observable<boolean> {
-        this.http.patch<Contact>(`${environment.apiServer}/contacts(${user.Id})`, user)
+        this.http.patch<Contact>(`${environment.apiServer}/contacts/${user.id}`, user)
         .pipe(
             retryWhen(genericRetryStrategy()),
             tap(() => {
                 // Update the user in the users array
                 let users = this.users.getValue();
-                let index = users.findIndex(u => u.Id === user.Id);
+                let index = users.findIndex(u => u.id === user.id);
                 users[index] = user
                 this.lastUserDataRetreivalTime = Date.now();
                 // Caller can subscribe to users$ to retreive the users any time they are updated
@@ -76,7 +76,7 @@ export class UserService {
 
         // Since we don't have a backend API in this demo, we will use localStorage instead
         const users = this.users.getValue();
-        users.map(u => user.Id === u.Id ? user : u);
+        users.map(u => user.id === u.id ? user : u);
         localStorage.setItem('users', JSON.stringify(users));
         this.users.next(users);
         return of(true);
