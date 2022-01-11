@@ -54,7 +54,7 @@ export class UserService {
     }
 
     public updateUser(user: Contact): Observable<boolean> {
-        this.http.patch<Contact>(`${environment.apiServer}/contacts/${user.id}`, user)
+        this.http.put<Contact>(`${environment.apiServer}/contacts/${user.id}`, user)
         .pipe(
             retryWhen(genericRetryStrategy()),
             tap(() => {
