@@ -25,10 +25,6 @@ export class UserService {
             this.http.get<Contact[]>(`${environment.apiServer}/contacts?$top=100`) //Limiting to 100 contacts only for demo purposes
                 .pipe(
                     retryWhen(genericRetryStrategy()),
-                    map((data: any) => {
-                        // later we may want to look for @odata.context, or @odata.nextLink here
-                        return data.value;
-                    }),
                     tap((users: Contact[]) => {
                         this.lastUserDataRetreivalTime = Date.now();
                         // Caller can subscribe to users$ to retreive the users any time they are updated
