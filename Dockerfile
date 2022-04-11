@@ -1,7 +1,7 @@
 # ng build --prod
 # docker build --rm -f "Dockerfile" -t paulgilchrist/mongodb-web:latest .
 # docker push paulgilchrist/mongodb-web
-FROM nginx:alpine
+FROM --platform=linux/amd64 nginx:alpine
 LABEL author="Paul Gilchrist"
 COPY ./dist/mongodb-web /usr/share/nginx/html
 EXPOSE 80 443
