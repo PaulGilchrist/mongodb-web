@@ -1,9 +1,9 @@
 # ng build --prod
-# docker build --rm -f "Dockerfile" --platform linux/arm64/v8 -t paulgilchrist/mongodb-web:arm64v8 .
+# docker build --rm -f "Dockerfile" --no-cache --platform linux/arm64/v8 -t paulgilchrist/mongodb-web:arm64v8 .
 # docker push paulgilchrist/mongodb-web:arm64v8
-# docker build --rm -f "Dockerfile" --platform linux/amd64 -t paulgilchrist/mongodb-web:amd64 .
+# docker build --rm -f "Dockerfile" --no-cache --platform linux/amd64 -t paulgilchrist/mongodb-web:amd64 .
 # docker push paulgilchrist/mongodb-web:amd64
-# docker manifest create --amend paulgilchrist/mongodb-web:latest paulgilchrist/mongodb-web:arm64v8 paulgilchrist/mongodb-web:amd64
+# docker manifest create paulgilchrist/mongodb-web:latest --amend paulgilchrist/mongodb-web:arm64v8 --amend paulgilchrist/mongodb-web:amd64
 # docker manifest push paulgilchrist/mongodb-web:latest
 FROM nginx:alpine
 LABEL author="Paul Gilchrist"
