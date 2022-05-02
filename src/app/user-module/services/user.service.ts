@@ -4,25 +4,36 @@ import { BehaviorSubject, combineLatest, throwError as observableThrowError, Obs
 import { catchError, map, retryWhen, tap } from 'rxjs/operators';
 
 import { genericRetryStrategy } from './generic-retry-strategy';
-import { environment } from '../../../environments/environment';
 import { State } from '../models/state.model';
 import { Contact } from '../models/contact.model';
 
 @Injectable()
 export class UserService {
+
+    //@ts-ignore 2339
+    private apiUrl = window._env_.API_URL;
+
     private states = new BehaviorSubject<State[]>([]);
     states$ = this.states.asObservable();
     private users = new BehaviorSubject<Contact[]>([]);
     users$ = this.users.asObservable();
 
+    private dataCaching: { // milliseconds data is allowed to remain cached before next request for that data re-retrieves it from the remote data source
+        defaultLong: 86400000, // Default for data that rarely or never changes such as a list of states (one day)
+        defaultShort: 60000, // Default for data that changes frequently, but still worth caching (one minute)
+        userData: 600000 // 10 minutes
+    }
+
     private lastStateDataRetreivalTime: number; // Time when user data was last retireved from the remote souce
     private lastUserDataRetreivalTime: number; // Time when user data was last retireved from the remote souce
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {
+        console.log(`apiUrl: ${this.apiUrl}`)
+    }
 
     public getUsers(force: boolean = false): Observable<Contact[]> {
-        if (force || this.users.getValue().length === 0 || Date.now() - this.lastUserDataRetreivalTime > environment.dataCaching.userData) {
-            this.http.get<Contact[]>(`${environment.apiServer}/contacts?$top=100`) //Limiting to 100 contacts only for demo purposes
+        if (force || this.users.getValue().length === 0 || Date.now() - this.lastUserDataRetreivalTime > this.dataCaching.userData) {
+            this.http.get<Contact[]>(`${this.apiUrl}/contacts?$top=100`) //Limiting to 100 contacts only for demo purposes
                 .pipe(
                     retryWhen(genericRetryStrategy()),
                     tap((users: Contact[]) => {
@@ -38,7 +49,7 @@ export class UserService {
     }
 
     public getStates(force: boolean = false): Observable<State[]> {
-        if (force || this.states.getValue().length === 0 || Date.now() - this.lastStateDataRetreivalTime > environment.dataCaching.defaultLong) {
+        if (force || this.states.getValue().length === 0 || Date.now() - this.lastStateDataRetreivalTime > this.dataCaching.defaultLong) {
             this.http.get(`./assets/states.json`).pipe(
                 retryWhen(genericRetryStrategy()),
                 tap((states: State[]) => {
@@ -54,7 +65,7 @@ export class UserService {
     }
 
     public updateUser(user: Contact): Observable<boolean> {
-        this.http.put<Contact>(`${environment.apiServer}/contacts/${user.id}`, user)
+        this.http.put<Contact>(`${this.apiUrl}/contacts/${user.id}`, user)
         .pipe(
             retryWhen(genericRetryStrategy()),
             tap(() => {
