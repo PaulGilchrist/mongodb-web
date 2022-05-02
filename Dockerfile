@@ -17,6 +17,8 @@ RUN npm run build --prod
 FROM nginx:alpine
 LABEL author="Paul Gilchrist"
 COPY --from=app-build /app/dist/mongodb-web /usr/share/nginx/html
+# Replace nginx's default server configuration to redirect 404 to homepage (Lets Angular handle routing)
+COPY ./nginx.default.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80 443
 # Add bash
 RUN apk add --no-cache bash
