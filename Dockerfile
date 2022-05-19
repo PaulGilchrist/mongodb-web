@@ -24,7 +24,7 @@ EXPOSE 80 443
 RUN apk add --no-cache bash
 # Make our shell script executable
 RUN chmod +x /usr/share/nginx/html/assets/env.sh
-# Start Nginx server
+# Generate Javascript file that adds environment variables to window._env_ when loaded by index.html, then start Nginx server
 CMD ["/bin/bash", "-c", "/usr/share/nginx/html/assets/env.sh && nginx -g \"daemon off;\""]
 
 # docker run -d -p 80:80 paulgilchrist/mongodb-web
