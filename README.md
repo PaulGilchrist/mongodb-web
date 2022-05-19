@@ -7,9 +7,9 @@ Angular has the concept that it is built specific to a single environment.  When
 
 Containers (Docker/Kubernetes) has the concept of build once and deploy to any environment, but that does not work with out of the box Angular so some minor changes are needed as described below.
 
-This project adds 3 new files and updates 2 others in very minor ways to support getting the environment variables from the webserver.  Those changes are summarized as follows:
+This project adds 3 new files and updates 2 others in very minor ways to support getting the environment variables from the container.  Those changes are summarized as follows:
 
-* `assets/env-defaults.txt` - default environment variables used for development and if none are supplied on container startup.    This file should be edited to include all needed environment variables (one per line).
+* `assets/env-defaults.txt` - default environment variables used for development if none are supplied on container startup.    This file should be edited to include all needed environment variables (one per line).
 
 ```js
 API_URL=https://api.local.com/contacts
@@ -56,6 +56,12 @@ echo "}" >> ./env-config.js
 window._env_ = {
     API_URL: "https://api.local.com/contacts"
 }
+```
+
+* `index.html` - loads and executes 'env-config.js' when the application starts.  Below is only part of 'index.html' and should be added to the top of the 'body' section.
+
+```html
+<script src="./assets/env-config.js"></script>
 ```
 
 * `Dockerfile` - adds bash, makes 'env.sh' executable, and executes it before starting nginx web server.  Below is only the part of `Dockerfile` related to environment variables and not the full file.
