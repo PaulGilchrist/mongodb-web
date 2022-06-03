@@ -1,10 +1,5 @@
-# docker build --rm -f "Dockerfile" --no-cache --platform linux/arm64/v8 -t paulgilchrist/mongodb-web:arm64v8 .
-# docker push paulgilchrist/mongodb-web:arm64v8
-# docker build --rm -f "Dockerfile" --no-cache --platform linux/amd64 -t paulgilchrist/mongodb-web:amd64 .
-# docker push paulgilchrist/mongodb-web:amd64
-# docker manifest rm paulgilchrist/mongodb-web:latest
-# docker manifest create paulgilchrist/mongodb-web:latest paulgilchrist/mongodb-web:arm64v8 paulgilchrist/mongodb-web:amd64
-# docker manifest push paulgilchrist/mongodb-web:latest
+# bash build.sh
+# kubectl rollout restart deployment web -n demo
 
 #stage 1
 FROM node:16 as app-build
